@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books In Minutes - Authentication</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/loader.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader-container">
+        <div class="book-loader">
+            <div class="book-page"></div>
+            <div class="book-page"></div>
+            <div class="book-page"></div>
+            <div class="book-page"></div>
+            <div class="book-page"></div>
+        </div>
+        <div class="loader-text">Books In Minutes</div>
+    </div>
+
+    <!-- Auth Container -->
+    <div class="auth-container">
+        <div class="forms-container">
+            <!-- Login Form -->
+            <div class="login-container fade-in">
+                <img src="https://static.vecteezy.com/system/resources/previews/006/405/794/large_2x/account-login-flat-illustration-vector.jpg" alt="Login" class="banner-image">
+                <h2>Welcome Back</h2>
+                <p class="subtitle">Log in to your account</p>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <input type="email" id="loginEmail" placeholder="Email" required>
+                        <i class="icon fas fa-envelope"></i>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="loginPassword" placeholder="Password" required>
+                        <i class="icon fas fa-eye toggle-password"></i>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                    
+                    <div class="divider"><span>or</span></div>
+                    
+                    <button type="button" class="btn btn-google">
+                        <img src="https://cdn4.iconfinder.com/data/icons/logos-brands-7/512/google_logo-google_icongoogle-512.png" alt="Google">
+                        Continue with Google
+                    </button>
+                </form>
+                
+                <div class="switch-form">
+                    <p>Don't have an account? <a id="showSignup">Create Account</a></p>
+                </div>
+            </div>
+
+            <!-- Signup Form -->
+            <div class="signup-container">
+                <img src="https://static.vecteezy.com/system/resources/previews/003/689/230/non_2x/online-registration-or-sign-up-login-for-account-on-smartphone-app-user-interface-with-secure-password-mobile-application-for-ui-web-banner-access-cartoon-people-illustration-vector.jpg" alt="Signup" class="banner-image" style="height:120px">
+                <h2>Create Account</h2>
+                <p class="subtitle">Join our community today</p>
+                
+                <form id="signupForm">
+                    <div class="form-group">
+                        <input type="email" id="signupEmail" placeholder="Email" required>
+                        <i class="icon fas fa-envelope"></i>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="signupPassword" placeholder="Password" required>
+                        <i class="icon fas fa-eye toggle-password"></i>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+                        <i class="icon fas fa-eye toggle-password"></i>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                    
+                    <div class="divider"><span>or</span></div>
+                    
+                    <button type="button" class="btn btn-google">
+                        <img src="https://cdn4.iconfinder.com/data/icons/logos-brands-7/512/google_logo-google_icongoogle-512.png" alt="Google">
+                        Continue with Google
+                    </button>
+                </form>
+                
+                <div class="switch-form">
+                    <p>Already have an account? <a id="showLogin">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
+    <script src="/js/firebase-config.js"></script>
+    <script src="/js/auth.js"></script>
+</body>
+</html>

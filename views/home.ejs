@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books In Minutes - Home</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/loader.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="home-body">
+    <!-- Loader -->
+    <div class="loader-container hide">
+        <div class="book-loader">
+            <div class="book-page"></div>
+            <div class="book-page"></div>
+            <div class="book-page"></div>
+            <div class="book-page"></div>
+            <div class="book-page"></div>
+        </div>
+        <div class="loader-text">Books In Minutes</div>
+    </div>
+
+    <div class="home-container">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="nav-left">
+                <div class="nav-brand">
+                    <i class="fas fa-book-reader"></i>
+                    <span>Books In Minutes</span>
+                </div>
+            </div>
+            
+            <div class="nav-center">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search books...">
+                    <div class="search-results" id="searchResults"></div>
+                </div>
+            </div>
+            
+            <div class="nav-right">
+                <% if (user) { %>
+                    <% if (isAdmin) { %>
+                        <a href="#" id="adminAuthBtn" class="nav-btn admin-btn">Admin Access</a>
+                    <% } else { %>
+                        <span class="nav-email"><%= user.email %></span>
+                    <% } %>
+                    <button id="logoutButton" class="nav-btn logout-btn">Logout</button>
+                <% } else { %>
+                    <a href="/login" class="nav-btn admin-btn">Login</a>
+                <% } %>
+            </div>
+        </nav>
+
+        <!-- Admin Authentication Modal -->
+        <div id="adminAuthModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Admin Authentication</h2>
+                    <span class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div id="adminAuthError" class="error-message"></div>
+                    <form id="adminAuthForm">
+                        <div class="form-group">
+                            <label for="adminPassword">Admin Password</label>
+                            <input type="password" id="adminPassword" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary close-modal">Cancel</button>
+                            <button type="submit" id="submitAdminAuth" class="btn btn-primary">Verify</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content
+        <main class="main-content">
+            <div class="welcome-section">
+                <h1>Welcome to Books In Minutes</h1>
+                <p>Your personal space for quick book summaries and insights</p>
+            </div> -->
+
+            <!-- Books Section -->
+            <section class="books-section">
+                <h2>Available Books</h2>
+                <div class="books-grid">
+                    <% if (books && books.length > 0) { %>
+                        <% books.forEach(book => { %>
+                            <div class="book-card" onclick="window.location.href='/book/<%= book.id %>'">
+                                <div class="book-image">
+                                    <img src="<%= book.imageUrl || '/images/default-book-cover.jpg' %>" alt="<%= book.title %>">
+                                </div>
+                                <div class="book-info">
+                                    <h3><%= book.title %></h3>
+                                    <p class="author">by <%= book.author %></p>
+                                    <div class="book-info">
+    <h3><%= book.title %></h3>
+    <p class="author">by <%= book.author %></p>
+    
+    <!-- PASTE THIS NEW CODE HERE (After author, Before book-links) -->
+    <div class="book-prices" style="display: flex; gap: 10px; margin: 10px 0;">
+        <% if (book.prices && book.prices.amazon) { %>
+            <span style="color: #FF9900; font-weight: bold;">Amazon: ₹<%= book.prices.amazon %></span>
+        <% } %>
+        <% if (book.prices && book.prices.flipkart) { %>
+            <span style="color: #2874F0; font-weight: bold;">Flipkart: ₹<%= book.prices.flipkart %></span>
+        <% } %>
+    </div>
+    <!-- END NEW CODE -->
+
+                                    <div class="book-links">
+                                        <!-- Buttons yahan hain -->
+                                        <% if (book.amazonUrl) { %>
+                                            <a href="<%= book.amazonUrl %>" target="_blank" class="btn-store amazon">
+                                                <i class="fab fa-amazon"></i>
+                                                <% if (book.prices && book.prices.amazon) { %>
+                                                    ₹<%= book.prices.amazon %>
+                                                <% } %>
+                                            </a>
+                                        <% } %>
+                                        <% if (book.flipkartUrl) { %>
+                                            <a href="<%= book.flipkartUrl %>" target="_blank" class="btn-store flipkart">
+                                                <i class="fa-solid fa-cart-shopping" style="color: white;"></i>
+                                                <% if (book.prices && book.prices.flipkart) { %>
+                                                    ₹<%= book.prices.flipkart %>
+                                                <% } %>
+                                            </a>
+                                        <% } %> </div>
+                                    </div>
+                                    <div class="book-links">
+                                        <% if (book.amazonUrl) { %>
+                                            <a href="<%= book.amazonUrl %>" target="_blank" class="btn-store amazon">
+                                                <i class="fab fa-amazon"></i>
+                                                <% if (book.prices && book.prices.amazon) { %>
+                                                    ₹<%= book.prices.amazon %>
+                                                <% } %>
+                                            </a>
+                                        <% } %>
+                                        <% if (book.flipkartUrl) { %>
+                                            <a href="<%= book.flipkartUrl %>" target="_blank" class="btn-store flipkart">
+                                                <i class="fa-solid fa-cart-shopping"style="color: white;"></i>
+                                                <% if (book.prices && book.prices.flipkart) { %>
+                                                    ₹<%= book.prices.flipkart %>
+                                                <% } %>
+                                            </a>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="no-books">
+                            <i class="fas fa-books"></i>
+                            <p>No books available yet. 
+                                <% if (isAdmin) { %>
+                                    <a href="/admin/dashboard">Add some books</a> through the admin panel.
+                                <% } else { %>
+                                    Check back soon!
+                                <% } %>
+                            </p>
+                        </div>
+                    <% } %>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="/js/firebase-config.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/home.js"></script>
+    <script>
+        // Debug check
+        console.log('Scripts loaded');
+        console.log('DOM elements:', {
+            searchInput: !!document.getElementById('searchInput'),
+            booksGrid: !!document.querySelector('.books-grid'),
+            bookCards: document.querySelectorAll('.book-card').length
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Books In Minutes</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/search.css">
+</head>
+<body class="admin-body">
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Overlay for mobile -->
+    <div class="overlay"></div>
+
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-book-reader"></i>
+                <span>Admin Panel</span>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#users" class="nav-item" data-section="users">
+                    <i class="fas fa-users"></i>
+                    <span>Users</span>
+                </a>
+                <a href="#books" class="nav-item" data-section="books">
+                    <i class="fas fa-book"></i>
+                    <span>Books</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="/home" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Back to Home</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Dashboard Section -->
+            <div id="dashboard" class="content-section active">
+                <h1>Dashboard Overview</h1>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <div class="stat-info">
+                            <h3>Total Users</h3>
+                            <p id="totalUsers">Loading...</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-book"></i>
+                        <div class="stat-info">
+                            <h3>Total Books</h3>
+                            <p id="totalBooks">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Section -->
+            <div id="users" class="content-section">
+                <div class="section-header">
+                    <h1>User Management</h1>
+                </div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Email</th>
+                            <th>Created</th>
+                            <th>Last Login</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersList">
+                        <tr>
+                            <td colspan="5" class="text-center">Loading users...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Books Section -->
+            <div id="books" class="content-section">
+                <div class="section-header">
+                    <h1>Book Management</h1>
+                    <button id="addBookBtn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Add Books
+                    </button>
+                </div>
+
+                <!-- Search Results Actions -->
+                <div id="searchResultsActions" class="search-actions hide">
+                    <div class="action-buttons">
+                        <button id="applyAllBtn" class="btn btn-secondary">
+                            <i class="fas fa-edit"></i> Apply All Details
+                        </button>
+                        <button id="addAllBooksBtn" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> Add All Books
+                        </button>
+                    </div>
+                    <div id="additionSuccess" class="success-message hide">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Total <strong id="addedBooksCount">0</strong> books have been added</span>
+                        <a href="/home" class="btn btn-secondary">
+                            <i class="fas fa-eye"></i> View Books
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Search Results Grid -->
+                <div id="searchResultsGrid" class="books-grid hide"></div>
+
+                <!-- Books List Table -->
+                <table id="booksListTable" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Cover</th>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Added Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="booksList">
+                        <tr>
+                            <td colspan="5" class="text-center">Loading books...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Books Modal -->
+    <div id="searchBooksModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Search Books</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="search-container">
+                    <div class="search-header">
+                        <h3>Enter Book Titles</h3>
+                        <p class="hint">Enter one book per line in format: Title | Author (optional)</p>
+                    </div>
+                    <textarea id="bulkSearchInput" rows="8" placeholder="Harry Potter and the Sorcerer's Stone | J.K. Rowling&#10;The Hobbit | J.R.R. Tolkien&#10;1984 | George Orwell"></textarea>
+                    <button id="searchBooksBtn" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Search Books
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Confirm Delete</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this item?</p>
+                <div class="form-actions">
+                    <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button id="confirmDelete" class="btn btn-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div class="loader-container hide">
+        <div class="loader"></div>
+        <div class="loader-text">Loading...</div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="/js/firebase-config.js"></script>
+    <script src="/js/admin.js"></script>
+</body>
+</html>

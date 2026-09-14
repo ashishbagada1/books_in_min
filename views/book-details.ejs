@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= book.title %> - Books In Minutes</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/loader.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/book-details.css">
+    <script>
+        // Default placeholder image as base64
+        const PLACEHOLDER_IMAGE = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYwIiBoZWlnaHQ9IjIyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTYwIiBoZWlnaHQ9IjIyMCIgZmlsbD0iI2YwZjBmMCIvPjxwYXRoIGQ9Ik02NSA5MGg0MHYxMEg2NXpNNTUgMTEwaDYwdjEwSDU1ek01NSAxMzBoNjB2MTBINTZ6IiBmaWxsPSIjZGRkIi8+PHRleHQgeD0iODAiIHk9IjcwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM5OTkiPk5vIENvdmVyPC90ZXh0Pjwvc3ZnPg==';
+    </script>
+</head>
+<body class="details-body">
+    <!-- Loader -->
+    <div class="loader-container hide">
+        <div class="book-loader">
+            <div class="book-page"></div>
+            <div class="book-page"></div>
+            <div class="book-page"></div>
+            <div class="book-page"></div>
+            <div class="book-page"></div>
+        </div>
+        <div class="loader-text">Loading Book Details</div>
+    </div>
+
+    <div class="details-container">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <a href="/home" class="nav-back">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <i class="fas fa-book-reader"></i>
+                <span>Books In Minutes</span>
+            </div>
+            <div class="nav-user">
+                <% if (isAdmin) { %>
+                    <a href="/admin" class="btn btn-admin">
+                        <i class="fas fa-user-shield"></i>
+                        Admin Panel
+                    </a>
+                <% } %>
+                <span class="user-email"><%= user.email %></span>
+                <button id="logoutBtn" class="btn btn-logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="book-details">
+                <div class="book-header">
+                    <div class="book-image">
+                        <img src="<%= book.imageUrl || PLACEHOLDER_IMAGE %>" 
+                             alt="<%= book.title %>"
+                             onerror="this.src='<%= PLACEHOLDER_IMAGE %>'">
+                    </div>
+                    <div class="book-info">
+                        <h1><%= book.title %></h1>
+                        <p class="author">by <%= book.author %></p>
+                        <div class="book-actions">
+                            <% if (book.amazonUrl) { %>
+                                <a href="<%= book.amazonUrl %>" target="_blank" class="btn-store amazon">
+                                    <i class="fab fa-amazon"></i>
+                                    Buy on Amazon
+                                    <% if (book.prices && book.prices.amazon) { %>
+                                        <span class="price">₹<%= book.prices.amazon %></span>
+                                    <% } %>
+                                </a>
+                            <% } %>
+                            <% if (book.flipkartUrl) { %>
+                                <a href="<%= book.flipkartUrl %>" target="_blank" class="btn-store flipkart">
+                                    <img src="/images/flipkart-icon.png" alt="Flipkart">
+                                    Buy on Flipkart
+                                    <% if (book.prices && book.prices.flipkart) { %>
+                                        <span class="price">₹<%= book.prices.flipkart %></span>
+                                    <% } %>
+                                </a>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="book-content">
+                    <% if (book.description) { %>
+                        <div class="book-section">
+                            <h2>Book Description</h2>
+                            <p><%= book.description %></p>
+                        </div>
+                    <% } %>
+
+                    <% if (book.googleData && book.googleData.volumeInfo) { %>
+                        <div class="book-section">
+                            <h2>Book Details</h2>
+                            <div class="details-grid">
+                                <% if (book.googleData.volumeInfo.publisher) { %>
+                                    <div class="detail-item">
+                                        <span class="label">Publisher</span>
+                                        <span class="value"><%= book.googleData.volumeInfo.publisher %></span>
+                                    </div>
+                                <% } %>
+                                <% if (book.googleData.volumeInfo.publishedDate) { %>
+                                    <div class="detail-item">
+                                        <span class="label">Published Date</span>
+                                        <span class="value"><%= book.googleData.volumeInfo.publishedDate %></span>
+                                    </div>
+                                <% } %>
+                                <% if (book.googleData.volumeInfo.pageCount) { %>
+                                    <div class="detail-item">
+                                        <span class="label">Pages</span>
+                                        <span class="value"><%= book.googleData.volumeInfo.pageCount %></span>
+                                    </div>
+                                <% } %>
+                                <% if (book.googleData.volumeInfo.categories) { %>
+                                    <div class="detail-item">
+                                        <span class="label">Categories</span>
+                                        <span class="value"><%= book.googleData.volumeInfo.categories.join(', ') %></span>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="/js/firebase-config.js"></script>
+    <script src="/js/auth.js"></script>
+</body>
+</html>
